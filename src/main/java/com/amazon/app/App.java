@@ -54,8 +54,8 @@ public class App {
             JSONObject json = new JSONObject(content.toString());
             JSONObject data = json.getJSONObject("data");
             JSONArray products = data.getJSONArray("products");
+            System.out.println("Results for " + query + ":");
             for(int i=0;i<products.length();i++){
-                System.out.println("Results for " + query + ":");
                 JSONObject product = products.getJSONObject(i);
                 String title = product.getString("product_title");
                 String price = product.get("product_price").toString();
