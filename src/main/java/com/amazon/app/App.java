@@ -8,15 +8,20 @@ import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 public class App {
-    public static void main(String args[]){
-        System.out.println("Hi");
+    public static void main(String args[]){      
+        System.out.println("AMAZON PRODUCT SEARCH");
+        System.out.println("---------------------");
+        System.out.println("Submit your search and enter:");
+        String query = System.console().readLine();     
+        System.out.println("---------------------");
+        search(query);
+    }     
+    static void search(String query){
         try {
             // Define the URL
-            String mainURL = "https://real-time-amazon-data.p.rapidapi.com/search?";
+            String mainURL = "https://real-time-amazon-data.p.rapidapi.com/search?query=" + query;
             Map<String, String> paramsURL = new HashMap<String, String>(){{
-                put("query", "Bote de basura");
                 put("page", "1");
                 put("country", "MX");
                 put("sort_by", "RELEVANCE");
@@ -49,16 +54,17 @@ public class App {
             JSONObject json = new JSONObject(content.toString());
             JSONObject data = json.getJSONObject("data");
             JSONArray products = data.getJSONArray("products");
+            System.out.println("Results for " + query + ":");
             for(int i=0;i<products.length();i++){
                 JSONObject product = products.getJSONObject(i);
                 String title = product.getString("product_title");
-                String price = product.getString("product_price").toString();
-                System.out.println(title + "\n" + " price:" + price );
+                String price = product.get("product_price").toString();
+                System.out.println(title + "\n" + " price: " + price );
                 System.out.println("------------------------------------------------------------------------");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }       
+    }  
 }
         
